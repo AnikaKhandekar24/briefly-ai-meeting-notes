@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Turn meeting transcripts into clear summaries, action items, and follow-up emails.">
+  <title>Briefly - AI Meeting Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Briefly home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32"><path d="M8 7.5h12.5A3.5 3.5 0 0 1 24 11v10a3.5 3.5 0 0 1-3.5 3.5H11A3 3 0 0 1 8 21.5v-14Z"/><path d="M13 12h6M13 16h7M13 20h4"/></svg>
+        </span>
+        <span>Briefly</span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-button active" id="newBriefButton">
+          <svg viewBox="0 0 20 20"><path d="M10 4v12M4 10h12"/></svg>
+          New brief
+        </button>
+        <button class="nav-button" id="libraryButton">
+          <svg viewBox="0 0 20 20"><path d="M4 3h12v14H4zM7 7h6M7 10h6M7 13h4"/></svg>
+          Library
+          <span class="nav-count" id="libraryCount">0</span>
+        </button>
+      </nav>
+      <div class="topbar-actions">
+        <button class="icon-button" id="themeToggle" aria-label="Toggle theme">
+          <svg class="sun-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/></svg>
+        </button>
+        <button class="icon-button" id="settingsButton" aria-label="Open settings">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21h-4v-.09A1.7 1.7 0 0 0 8.6 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3v-4h.09A1.7 1.7 0 0 0 4.6 8.6a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3h4v.09A1.7 1.7 0 0 0 15.4 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.4 9c.17.36.46.66.82.84.25.12.53.18.8.17H21v4h-.09A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+        </button>
+        <div class="profile-wrap">
+          <button class="avatar-button" id="profileButton" aria-label="Open profile menu">AK</button>
+          <div class="profile-menu hidden" id="profileMenu">
+            <div class="profile-menu-head">
+              <span class="menu-avatar" id="menuAvatar">AK</span>
+              <span><strong id="menuName">Anika Kapoor</strong><small id="menuEmail">anika@example.com</small></span>
+            </div>
+            <button id="editProfileButton"><svg viewBox="0 0 20 20"><path d="M12 4l4 4-8 8H4v-4zM10 6l4 4"/></svg>Edit profile</button>
+            <button id="menuSettingsButton"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="3"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.3 4.3l1.4 1.4M14.3 14.3l1.4 1.4M4.3 15.7l1.4-1.4M14.3 5.7l1.4-1.4"/></svg>Preferences</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="eyebrow"><span></span> Meeting intelligence, minus the busywork</div>
+        <h1>From conversation<br>to <em>clarity.</em></h1>
+        <p>Paste any meeting transcript. Get the decisions, action items, and follow-up ready before your coffee gets cold.</p>
+      </section>
+
+      <section class="workspace">
+        <div class="input-panel panel">
+          <div class="panel-heading">
+            <div>
+              <span class="step-label">01 / Transcript</span>
+              <h2>What happened?</h2>
+            </div>
+            <button class="text-button" id="sampleButton">
+              <svg viewBox="0 0 20 20"><path d="m4 4 3 3-3 3M9 10h6M4 15h11"/></svg>
+              Try sample
+            </button>
+          </div>
+
+          <div class="meeting-meta">
+            <label>
+              <span>Meeting title</span>
+              <input id="meetingTitle" type="text" placeholder="e.g. Weekly product sync" maxlength="80">
+            </label>
+            <label>
+              <span>Date</span>
+              <input id="meetingDate" type="date">
+            </label>
+          </div>
+
+          <div class="transcript-wrap">
+            <textarea id="transcript" placeholder="Paste your transcript here...
+
+Tip: Speaker names and timestamps help produce better notes."></textarea>
+            <div class="textarea-footer">
+              <span id="wordCount">0 words</span>
+              <button id="clearButton" class="clear-button">Clear</button>
+            </div>
+          </div>
+
+          <div class="options-row">
+            <div>
+              <span class="option-title">Summary style</span>
+              <div class="segmented" role="radiogroup" aria-label="Summary style">
+                <button class="segment active" data-style="brief">Brief</button>
+                <button class="segment" data-style="detailed">Detailed</button>
+                <button class="segment" data-style="executive">Executive</button>
+              </div>
+            </div>
+            <label class="toggle-label">
+              <span>
+                <strong>Follow-up email</strong>
+                <small>Draft a ready-to-send recap</small>
+              </span>
+              <input id="emailToggle" type="checkbox" checked>
+              <span class="toggle"></span>
+            </label>
+          </div>
+
+          <button class="generate-button" id="generateButton">
+            <span>Generate meeting brief</span>
+            <span class="button-icon">
+              <svg viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5"/></svg>
+            </span>
+          </button>
+          <p class="local-note">Your transcript stays in this browser. Nothing is uploaded.</p>
+        </div>
+
+        <div class="output-panel panel" id="outputPanel">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-art" aria-hidden="true">
+              <div class="paper paper-back"></div>
+              <div class="paper paper-front">
+                <span></span><span></span><span></span>
+                <div class="spark">✦</div>
+              </div>
+            </div>
+            <span class="step-label">02 / Your brief</span>
+            <h2>The good stuff<br>will show up here.</h2>
+            <p>Add a transcript, choose your style, and let Briefly find the signal in the noise.</p>
+            <div class="output-preview">
+              <span>Summary</span>
+              <span>Decisions</span>
+              <span>Action items</span>
+              <span>Follow-up</span>
+            </div>
+          </div>
+
+          <div class="results hidden" id="results">
+            <div class="results-header">
+              <div>
+                <span class="step-label">02 / Your brief</span>
+                <h2 id="resultTitle">Meeting brief</h2>
+                <p id="resultMeta"></p>
+              </div>
+            <div class="result-actions">
+                <button class="save-button" id="saveButton">
+                  <svg viewBox="0 0 20 20"><path d="M4 3h10l2 2v12H4zM7 3v5h6V3M7 17v-5h6v5"/></svg>
+                  Save
+                </button>
+                <button class="icon-button bordered" id="copyAllButton" aria-label="Copy all">
+                  <svg viewBox="0 0 20 20"><rect x="6" y="6" width="10" height="10" rx="2"/><path d="M4 13H3.5A1.5 1.5 0 0 1 2 11.5v-8A1.5 1.5 0 0 1 3.5 2h8A1.5 1.5 0 0 1 13 3.5V4"/></svg>
+                </button>
+                <button class="export-button" id="exportButton">
+                  Export
+                  <svg viewBox="0 0 20 20"><path d="M10 3v10M6 9l4 4 4-4M4 17h12"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="tabs" role="tablist">
+              <button class="tab active" data-tab="notes">Meeting notes</button>
+              <button class="tab" data-tab="email">Follow-up email</button>
+            </div>
+
+            <div class="tab-content active" id="notesTab">
+              <article class="brief-section summary-section">
+                <div class="section-title">
+                  <span class="section-icon summary-icon">
+                    <svg viewBox="0 0 20 20"><path d="M4 4h12M4 8h12M4 12h8M4 16h5"/></svg>
+                  </span>
+                  <h3>In a nutshell</h3>
+                </div>
+                <div id="summaryContent" class="editable-content" contenteditable="true"></div>
+              </article>
+
+              <article class="brief-section">
+                <div class="section-title">
+                  <span class="section-icon decision-icon">
+                    <svg viewBox="0 0 20 20"><path d="m4 10 4 4 8-8"/></svg>
+                  </span>
+                  <h3>Key decisions</h3>
+                  <span class="count-badge" id="decisionCount">0</span>
+                </div>
+                <ul id="decisionsList" class="brief-list editable-list"></ul>
+              </article>
+
+              <article class="brief-section">
+                <div class="section-title">
+                  <span class="section-icon action-icon">
+                    <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+                  </span>
+                  <h3>Action items</h3>
+                  <span class="count-badge" id="actionCount">0</span>
+                </div>
+                <div id="actionsList" class="actions-list"></div>
+              </article>
+
+              <article class="brief-section">
+                <div class="section-title">
+                  <span class="section-icon topic-icon">
+                    <svg viewBox="0 0 20 20"><path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h9A2.5 2.5 0 0 1 17 5.5v5a2.5 2.5 0 0 1-2.5 2.5H9l-4 4v-4.05A2.5 2.5 0 0 1 3 10.5v-5Z"/></svg>
+                  </span>
+                  <h3>Topics discussed</h3>
+                </div>
+                <div id="topicsList" class="topic-tags"></div>
+              </article>
+            </div>
+
+            <div class="tab-content" id="emailTab">
+              <article class="email-card">
+                <div class="email-field"><span>Subject</span><strong id="emailSubject"></strong></div>
+                <div class="email-body editable-content" id="emailBody" contenteditable="true"></div>
+                <button class="copy-email-button" id="copyEmailButton">
+                  <svg viewBox="0 0 20 20"><rect x="6" y="6" width="10" height="10" rx="2"/><path d="M4 13H3.5A1.5 1.5 0 0 1 2 11.5v-8A1.5 1.5 0 0 1 3.5 2h8A1.5 1.5 0 0 1 13 3.5V4"/></svg>
+                  Copy email
+                </button>
+              </article>
+            </div>
+          </div>
+
+          <div class="loading-state hidden" id="loadingState">
+            <div class="loader"><span></span><span></span><span></span></div>
+            <h3>Finding the signal...</h3>
+            <p id="loadingMessage">Reading through the conversation</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status">Copied to clipboard</div>
+
+    <aside class="library-drawer" id="libraryDrawer" aria-hidden="true">
+      <div class="drawer-header">
+        <div><span class="step-label">Your workspace</span><h2>Meeting library</h2></div>
+        <button class="icon-button" id="closeLibraryButton" aria-label="Close library"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
+      </div>
+      <label class="library-search">
+        <svg viewBox="0 0 20 20"><circle cx="9" cy="9" r="5"/><path d="m13 13 4 4"/></svg>
+        <input id="librarySearch" type="search" placeholder="Search saved meetings">
+      </label>
+      <div class="library-list" id="libraryList"></div>
+    </aside>
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+    <dialog class="app-dialog" id="profileDialog">
+      <form method="dialog" id="profileForm">
+        <div class="dialog-header">
+          <div><span class="step-label">Account</span><h2>Edit profile</h2></div>
+          <button class="icon-button dialog-close" value="cancel" aria-label="Close profile"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
+        </div>
+        <div class="profile-editor"><div class="large-avatar" id="profilePreview">AK</div><p>Your initials update automatically.</p></div>
+        <div class="form-grid">
+          <label><span>Full name</span><input id="profileName" name="name" required maxlength="60"></label>
+          <label><span>Email address</span><input id="profileEmail" name="email" type="email" required></label>
+          <label class="full-field"><span>Role</span><input id="profileRole" name="role" placeholder="e.g. Product manager" maxlength="60"></label>
+        </div>
+        <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" id="saveProfileButton" value="default">Save profile</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="app-dialog" id="settingsDialog">
+      <form method="dialog" id="settingsForm">
+        <div class="dialog-header">
+          <div><span class="step-label">Workspace</span><h2>Preferences</h2></div>
+          <button class="icon-button dialog-close" value="cancel" aria-label="Close settings"><svg viewBox="0 0 20 20"><path d="m5 5 10 10M15 5 5 15"/></svg></button>
+        </div>
+        <div class="settings-list">
+          <label class="setting-row"><span><strong>Appearance</strong><small>Choose how Briefly looks.</small></span><select id="themeSetting"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+          <label class="setting-row"><span><strong>Default summary</strong><small>Applied to every new brief.</small></span><select id="styleSetting"><option value="brief">Brief</option><option value="detailed">Detailed</option><option value="executive">Executive</option></select></label>
+          <label class="setting-row"><span><strong>Generate follow-up</strong><small>Include an email draft by default.</small></span><input id="emailSetting" type="checkbox" class="native-switch"></label>
+          <label class="setting-row"><span><strong>Auto-save meetings</strong><small>Add generated briefs to your library.</small></span><input id="autosaveSetting" type="checkbox" class="native-switch"></label>
+        </div>
+        <div class="dialog-actions"><button class="secondary-button" value="cancel">Cancel</button><button class="primary-button" id="saveSettingsButton" value="default">Save preferences</button></div>
+      </form>
+    </dialog>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
